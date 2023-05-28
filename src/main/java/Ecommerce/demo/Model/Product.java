@@ -7,11 +7,13 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
+
 @Table(name="product")
 public class Product {
+
     @Id
-    private int id;
     @GeneratedValue(strategy = GenerationType.AUTO)
+    private int id;
     private String productName;
     private String ProductPrice ;
     private boolean stock ;

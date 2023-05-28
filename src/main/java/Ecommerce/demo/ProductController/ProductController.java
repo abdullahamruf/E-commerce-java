@@ -31,5 +31,13 @@ public class ProductController {
     public Optional<Product> findById(@PathVariable int id) {
         return productService.viewProductById(id);
     }
+   @DeleteMapping("product/delete/{id}")
+    public void deleteProduct(@PathVariable int id){
+         productService.deleteProduct(id);
+    }
+    @PutMapping("/product/update/{id}")
+    public Product updateProduct(@PathVariable int id ,Product product){
+        return productService.updateProduct(id,product);
 
+    }
 }
