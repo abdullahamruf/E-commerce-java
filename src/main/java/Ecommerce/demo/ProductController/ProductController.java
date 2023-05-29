@@ -3,6 +3,8 @@ package Ecommerce.demo.ProductController;
 import Ecommerce.demo.Model.Product;
 import Ecommerce.demo.ProductService.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -28,16 +30,27 @@ public class ProductController {
 
 
     @GetMapping("product/view/{id}")
-    public Optional<Product> findById(@PathVariable int id) {
-        return productService.viewProductById(id);
+    public ResponseEntity<Product> findById(@PathVariable int id) {
+        Optional<Product> optionalProduct = productService.viewProductById(id);
+
+        if (optionalProduct.isPresent()) {
+            Product viewById = optionalProduct.get();
+            return new ResponseEntity<>(viewById, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
     }
-   @DeleteMapping("product/delete/{id}")
-    public void deleteProduct(@PathVariable int id){
-         productService.deleteProduct(id);
+
+    @DeleteMapping("product/delete/{id}")
+    public ResponseEntity<Void> deleteProduct(@PathVariable int id) {
+        productService.deleteProduct(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
+
     @PutMapping("/product/update/{id}")
-    public Product updateProduct(@PathVariable int id ,Product product){
-        return productService.updateProduct(id,product);
+    public ResponseEntity<Product> updateProduct(@PathVariable int id ,Product product){
+      Product update =productService.updateProduct(id,product);
+      return new ResponseEntity<Product>(update,HttpStatus.OK);
 
     }
 }
